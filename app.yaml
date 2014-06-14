@@ -11,6 +11,9 @@ handlers:
 - url: /js
   static_dir: js
 
+- url: /partials
+  static_dir: partials
+
 - url: /css
   static_dir: css
 
