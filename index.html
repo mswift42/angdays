@@ -2,21 +2,30 @@
 <html ng-app="daysApp">
   <head>
     <title>Days</title>
-    <script src="/js/angular.min.js"></script>
-  <script src="/js/bower_components/angular-strap/dist/angular-strap.min.js"></script>
-  <script src="/js/bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
-  <script src="/js/angdays.js"></script>
-  <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="/css/angdays.css" rel="stylesheet"/>
   </head>
-  <div class="navbar navbar-fixed-top navbar-inverse" role="navigation" bs-navbar>
-    <ul class="nav navbar-nav">
-      <li data-match-route="/?(navbar)?"><a href="#/">Home</a></li>
-      <li data-match-route="/newtask"><a href="#/newtask">New Task</a></li>
-      <li data-match-route="/about"><a href="#/about">About</a></li>
-    </ul>
-    <div class="navbar-header pull-right">
-      <a class="navbar-brand" href="#">Days - Do All Your Stuff!</a>
+  <body ng-controller="DaysController">
+    <div class="navbar navbar-fixed-top navbar-inverse" role="navigation" bs-navbar>
+      <ul class="nav navbar-nav">
+        <li data-match-route="/?(navbar)?"><a href="#/">Home</a></li>
+        <li data-match-route="/newtask"><a href="/#newtask">New Task</a></li>
+        <li data-match-route="/about"><a href="#/about">About</a></li>
+      </ul>
+      <div class="navbar-header pull-right">
+        <a class="navbar-brand" href="#">Days - Do All Your Stuff!</a>
+      </div>
     </div>
-  </div>
-  <p>some text</p>
+    <div ng-view></div>
+    {{message}}
+
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/bower_components/angular-route/angular-route.min.js">
+    </script>
+    <script src="/js/bower_components/angular-strap/dist/angular-strap.min.js"></script>
+    <script src="/js/bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
+    <script src="/js/angdays.js"></script>
+
+  </body>
 </html>
