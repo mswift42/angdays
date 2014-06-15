@@ -1,6 +1,41 @@
 <div class="newtaskform" ng-controller="NewTaskController">
-  <form noviladate>
-    Summary: <input type="text" ng-model="task.summary"/><br/>
-    {{message}}
-  </form>
+  <h2 class="header">New Task</h2>
+  <br/>
+  <br/>
+  <!-- <form noviladate> -->
+  <!--   Summary: <input type="text" ng-model="task.summary"/><br/> -->
+  <!--   {{message}} -->
+  <!-- </form> -->
+  <form noviladate class="form-horizontal" method="post" id="postform" >
+    <fieldset>
+      <div class="content">
+        <div class="control-group">
+          <label class="control-label" for="textinput">Task Summary</label>
+          <div class="controls">
+            <input id="textinput" name="tinput" class="form-control input-md" type="text">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="tarea">Task Contents</label>
+          <div class="controls">
+            <textarea class="form-control" name="tarea" id="tarea" rows="5"></textarea>
+          </div>
+        </div>
+        <div class="control-group">
+          <label for="scheduled" class="col-md-4 control-label">Scheduled</label>
+          <div class="controls" ng-class="{'has-error': datepickerForm.date.$invalid}">
+            <label class="control-label"><i class="fa fa-calendar"></i> Date <small>(as date)</small></label>
+
+            <input type="text" ng-model="selectedDate" class="form-control" name="scheduled" bs-datepicker>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <button id="singlebutton" name="submitbutton" class="btn">Submit</button>
+          </div>
+        </div>
+      </div>
+</div>
+</fieldset>
+</form>
 </div>
