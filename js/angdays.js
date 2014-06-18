@@ -1,4 +1,4 @@
-var daysApp = angular.module('daysApp',['ngRoute','mgcrea.ngStrap']);
+var daysApp = angular.module('daysApp',['ngRoute','mgcrea.ngStrap', 'ngResource']);
 
 daysApp.factory('Task',function($resource) {
   var Task = $resource('/tasks');
@@ -8,13 +8,13 @@ daysApp.controller('TaskCtrl', function($scope, Task) {
   $scope.tasks = Task.query();
   $scope.addTask = function() {
     var task = new Task();
-    task.summary = $scope.task.summary;
-    task.content = $scope.task.content;
+    task.summary = $scope.taskSummary;
+    task.content = $scope.taskContent;
     task.scheduled = $scope.task.scheduled;
     task.$save();
     task.state =  'saving';
     $scope.tasks.push(task);
-    $scope.task.summary = '';
+    $scope.taskSummary = '';
     task.updating = true;
     task.done = false;
   };
@@ -25,16 +25,27 @@ daysApp.controller('TaskCtrl', function($scope, Task) {
   $scope.disabled = function(task) {
     return task.state != undefined;
   };
+  $scope.archive = function() {
+    Task.remove(function() {
+      Task.query(function(tasks) {
+        $scope.tasks = tasks;
+        });
+      });
+  };
 });
 
 daysApp.controller('DaysController',function($scope) {
   var message = "hello";
 });
 daysApp.controller('NewTaskController',function($scope) {
-  $scope.message = "newtask text";
+  $scope.message = "task text";
 });
 daysApp.config(function($routeProvider) {
   $routeProvider.
+    when('/tasks', {
+      templateUrl: 'partials/tasks.html',
+      controller: 'TaskCtrl'
+    }).
     when('/newtask', {
       templateUrl: 'partials/newtask.html',
       controller: 'NewTaskController'
