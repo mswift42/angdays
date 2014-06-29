@@ -21,13 +21,6 @@ type Task struct {
 	Created   time.Time `json:"created"`
 }
 
-func init() {
-	http.HandleFunc("/", handler)
-}
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello, world!")
-}
 func tasklistkey(c appengine.Context) *datastore.Key {
 	return datastore.NewKey(c, "Task", "default_tasklist", 0, nil)
 
@@ -64,4 +57,37 @@ func listTasks(c appengine.Context) ([]Task, error) {
 		tasks[i].Id = keys[i].IntID()
 	}
 	return tasks, err
+}
+
+func init() {
+	http.HandleFunc("/tasks", handler)
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+	val, err := handleTasks(c, r)
+	if err == nil {
+		err = json.NewEncoder(w).Encode(val)
+	}
+	if err != nil {
+		c.Errorf("task error: %#v", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func handleTasks(c appengine.Context, r *http.Request) (interface{}, error) {
+	switch r.Method {
+	case "POST":
+		task, err := decodeTask(r.Body)
+		if err != nil {
+			return nil, err
+		}
+		return task.save(c)
+	case "GET":
+		return listTasks(c)
+		// case "DELETE":
+		// 	return nil, deleteDoneTodos(c)
+	}
+	return nil, fmt.Errorf("method not implemented")
 }

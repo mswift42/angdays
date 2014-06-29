@@ -20,5 +20,5 @@ handlers:
 - url: /stylesheets
   static_dir: stylesheets
 
-- url: /days
+- url: /tasks
   script: _go_app
