@@ -17,7 +17,7 @@ type Task struct {
 	User      string    `json:"user"`
 	Content   string    `json:"content" datastore:",noindex"`
 	Scheduled string    `json:"scheduled"`
-	Done      bool      `json:"done"`
+	Done      string    `json:"done"`
 	Created   time.Time `json:"created"`
 }
 
