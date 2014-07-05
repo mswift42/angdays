@@ -5,6 +5,10 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+
+	"appengine/aetest"
+	"appengine/datastore"
+	"appengine/user"
 )
 
 func TestTaskStruct(t *testing.T) {
@@ -55,4 +59,39 @@ func TestFormatDate(t *testing.T) {
 	formatted2 := formatDate(time2)
 	assert.Equal(formatted, "01/02/2003", "formattedDate = 01/02/2003")
 	assert.Equal(formatted2, "03/04/2005", "formattedDate = 03/04/2005")
+}
+
+func TestTasks(t *testing.T) {
+	assert := assert.New(t)
+	t1 := Task{Summary: "task1", Content: "Some content", Done: "Done"}
+	t2 := Task{Summary: "task2", Done: "Todo"}
+	c, err := aetest.NewContext(nil)
+	u := user.Current(c)
+	if u != nil {
+		t.Fatal(err)
+	}
+	if err != nil {
+		t.Fatal(err)
+	}
+	key := datastore.NewKey(c, "Task", "", 1, nil)
+	if _, err := datastore.Put(c, key, &t1); err != nil {
+		t.Fatal(err)
+	}
+	nkey := datastore.NewKey(c, "Task", "", 2, nil)
+	if _, err := datastore.Put(c, nkey, &t2); err != nil {
+		t.Fatal(err)
+	}
+	gt1 := Task{}
+	gt2 := Task{}
+	if err := datastore.Get(c, key, &gt1); err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(gt1, t1, "returned datastore object == t1")
+
+	if err := datastore.Get(c, nkey, &gt2); err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(gt2, t2, "returned datasotre object == t2")
+
+	defer c.Close()
 }
