@@ -12,13 +12,12 @@ import (
 )
 
 type Task struct {
-	Id        int64     `json:"id" datastore:"-"`
-	Summary   string    `json:"summary"`
-	User      string    `json:"user"`
-	Content   string    `json:"content" datastore:",noindex"`
-	Scheduled string    `json:"scheduled"`
-	Done      string    `json:"done"`
-	Created   time.Time `json:"created"`
+	Id        int64  `json:"id" datastore:"-"`
+	Summary   string `json:"summary"`
+	User      string `json:"user"`
+	Content   string `json:"content" datastore:",noindex"`
+	Scheduled string `json:"scheduled"`
+	Done      string `json:"done"`
 }
 
 // Agenda - struct for Overview of upcoming tasks.
@@ -101,7 +100,6 @@ func tasklistkey(c appengine.Context) *datastore.Key {
 }
 func (t *Task) key(c appengine.Context) *datastore.Key {
 	if t.Id == 0 {
-		t.Created = time.Now()
 		return datastore.NewIncompleteKey(c, "Task", tasklistkey(c))
 	}
 	return datastore.NewKey(c, "Task", "", t.Id, tasklistkey(c))
