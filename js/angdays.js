@@ -1,17 +1,22 @@
-var daysApp = angular.module('daysApp',['ngRoute','mgcrea.ngStrap', 'ngResource']);
+var daysApp = angular.module('daysApp', ['ngRoute', 'mgcrea.ngStrap', 'ngResource']);
 
-daysApp.factory('Task',function($resource) {
+daysApp.factory('Task', function($resource) {
     var Task = $resource('/tasks');
     return Task;
 });
 daysApp.controller('TaskCtrl', function($scope, Task) {
-    $scope.tasks = Task.query();
+    Task.get(function(data) {
+        $scope.tasks = data.tasks;
+        $scope.agenda = data.agendaslice;
+    });
+
     $scope.addTask = function(newtaskform) {
         if (newtaskform.$valid) {
             var task = new Task();
             task.summary = $scope.taskSummary;
             task.content = $scope.taskContent;
             task.scheduled = $scope.taskScheduled;
+            task.done = "Todo";
             task.$save();
             task.state =  'saving';
             $scope.tasks.push(task);
@@ -19,19 +24,20 @@ daysApp.controller('TaskCtrl', function($scope, Task) {
             $scope.taskContent = '';
             $scope.taskScheduled = '';
             $scope.$apply(function() {
-                $scope.showtask = false;
+                $scope.showtask = true;
             });
             $scope.$route.reload();
             task.updating = true;
-            task.done = false;
-        };
+            task.state = 'updating';
+
+        }
     };
     $scope.change = function(task) {
         task.$save();
         task.state = 'updating';
     };
     $scope.disabled = function(task) {
-        return task.state != undefined;
+        return task.state !== undefined;
     };
     // $scope.archive = function() {
     //     Task.remove(function() {
@@ -42,9 +48,7 @@ daysApp.controller('TaskCtrl', function($scope, Task) {
     // };
 });
 
-daysApp.controller('DaysController',function($scope) {
-    var message = "hello";
-});
+
 
 daysApp.config(function($routeProvider) {
     $routeProvider.
@@ -67,7 +71,7 @@ daysApp.directive("navbarHeader",function() {
 });
 daysApp.config(function($datepickerProvider) {
     angular.extend($datepickerProvider.defaults, {
-        dateFormat: 'dd/MM/yyyy',
+        dateFormat: 'dd/mm/yyyy',
         startWeek: 1
     });
 });
