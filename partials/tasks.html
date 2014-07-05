@@ -1,0 +1,24 @@
+<div class="tasks" ng-controller="TaskCtrl">
+  <h2 class="header">Tasks</h2>
+  <div class="ntaskbutton">
+    <button ng-click="showtask=!showtask" class="bttn">Add new task</button>
+  </div>
+  <div class="ntask" ng-show="showtask">
+    <div ng-include src=" 'partials/newtask.html' "></div>
+  </div>
+  <div ng-controller="TaskCtrl">
+    <div class="tasklist">
+      <div class="task-{{task.state}}" ng-repeat="task in tasks">
+        <div class="singletask">
+          <span>{{task.done}}</span>
+        <div class="tsummary" ng-model="taskSummary" ng-change="change(task)">
+          <p>{{task.summary}}</p>
+        </div>
+        <br/>
+        <p>{{task.content}}</p>
+        <p>{{task.scheduled}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
