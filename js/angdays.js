@@ -4,13 +4,21 @@ daysApp.factory('Task', function($resource) {
     var Task = $resource('/tasks');
     return Task;
 });
-daysApp.controller('TaskCtrl', function($scope, Task) {
+daysApp.controller('ScrollCtrl',function($scope,$location,$anchorScroll) {
+    $scope.scrollToTask = function(task) {
+        $location.hash(task.id);
+        $anchorScroll();
+    };
+});
+
+
+daysApp.controller('TaskCtrl', function($scope, Task,$filter) {
     Task.get(function(data) {
         $scope.tasks = data.tasks;
-        $scope.agenda = data.agendaslice;
+        $scope.agendas = data.agendaslice;
     });
 
-    $scope.addTask = function(newtaskform) {
+    $scope.addTask = function(newtaskform,$filter) {
         if (newtaskform.$valid) {
             var task = new Task();
             task.summary = $scope.taskSummary;
@@ -39,6 +47,7 @@ daysApp.controller('TaskCtrl', function($scope, Task) {
     $scope.disabled = function(task) {
         return task.state !== undefined;
     };
+
     // $scope.archive = function() {
     //     Task.remove(function() {
     //         Task.query(function(tasks) {
@@ -71,7 +80,8 @@ daysApp.directive("navbarHeader",function() {
 });
 daysApp.config(function($datepickerProvider) {
     angular.extend($datepickerProvider.defaults, {
-        dateFormat: 'dd/mm/yyyy',
-        startWeek: 1
+        dateFormat: 'dd/MM/yyyy',
+        startWeek: 1,
+        autoClose: true
     });
 });
