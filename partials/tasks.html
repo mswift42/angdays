@@ -1,24 +1,51 @@
-<div class="tasks" ng-controller="TaskCtrl">
-  <h2 class="header">Tasks</h2>
-  <div class="ntaskbutton">
-    <button ng-click="showtask=!showtask" class="bttn">Add new task</button>
-  </div>
-  <div class="ntask" ng-show="showtask">
-    <div ng-include src=" 'partials/newtask.html' "></div>
-  </div>
-  <div ng-controller="TaskCtrl">
-    <div class="tasklist">
-      <div class="task-{{task.state}}" ng-repeat="task in tasks">
-        <div class="singletask">
-          <span>{{task.done}}</span>
-        <div class="tsummary" ng-model="taskSummary" ng-change="change(task)">
-          <p>{{task.summary}}</p>
+<div class="tc" ng-controller="TaskCtrl">
+  <div class="container">
+    <div class="row-fluid">
+      <!-- Agenda -->
+      <div class="col-md-3">
+        <div class="agendabox">
+          <div class="agenda" >
+            <h3><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>Agenda<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></h3>
+            <br/>
+            <div class="agendaview" ng-repeat="agenda in agendas">
+              <div class="fancydate">
+                <p>{{agenda.fancydate}}</p>
+              </div>
+              <div class="tasksperdate" ng-repeat="task in agenda.taskslice">
+                <div class="singletaskperdate" ng-controller="ScrollCtrl">
+                  <a ng-click="scrollToTask(task)">{{task.summary}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <br/>
-        <p>{{task.content}}</p>
-        <p>{{task.scheduled}}</p>
+      </div>
+      <!-- Task Overview -->
+    <div class="col-md-9">
+      <div class="tasks" >
+        <h2 class="header">Tasks</h2>
+        <div class="ntaskbutton">
+          <button ng-click="showtask=!showtask" class="bttn">Add new task</button>
+        </div>
+        <div class="ntask" ng-show="showtask">
+          <div ng-include src=" 'partials/newtask.html' "></div>
+        </div>
+        <div ng-controller="TaskCtrl">a
+          <div class="tasklist">
+            <div class="task-{{task.state}}" ng-repeat="task in tasks">
+              <div class="singletask">
+                <span>{{task.done}}</span>
+                <div class="tsummary" id={{task.id}} ng-model="taskSummary" ng-change="change(task)">
+                  <p>{{task.summary}}</p>
+                </div>
+                <br/>
+                <p>{{task.content}}</p>
+                <p>{{task.scheduled | date}}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</div>  </div>
