@@ -90,7 +90,7 @@ func agendaOverview(ts []Task, d time.Time) []Agenda {
 	for i := range a {
 		ag := make([]Task, 0)
 		for _, k := range ts {
-			if week[i] == k.Scheduled && k.Done == "Todo" {
+			if formatDate(week[i]) == formatDate(k.Scheduled) && k.Done == "Todo" {
 				ag = append(ag, k)
 			}
 		}
