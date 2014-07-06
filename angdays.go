@@ -12,20 +12,25 @@ import (
 )
 
 type Task struct {
-	Id        int64  `json:"id" datastore:"-"`
-	Summary   string `json:"summary"`
-	User      string `json:"user"`
-	Content   string `json:"content" datastore:",noindex"`
-	Scheduled string `json:"scheduled"`
-	Done      string `json:"done"`
+	Id        int64     `json:"id" datastore:"-"`
+	Summary   string    `json:"summary"`
+	User      string    `json:"user"`
+	Content   string    `json:"content" datastore:",noindex"`
+	Scheduled time.Time `json:"scheduled"`
+	Done      string    `json:"done"`
 }
 
 // Agenda - struct for Overview of upcoming tasks.
 // Contains a date in format <Weekday, day, monthabbr year>
 // and a slice of tasks for the date.
 type Agenda struct {
-	FancyDate string
-	Taskslice []Task
+	FancyDate string `json:"fancydate"`
+	Taskslice []Task `json:"taskslice"`
+}
+
+type TaskAndAgenda struct {
+	Tasks       []Task   `json:"tasks"`
+	Agendaslice []Agenda `json:"agendaslice"`
 }
 
 // agendasize constant, describes size of agendaoverview in days
@@ -85,7 +90,7 @@ func agendaOverview(ts []Task, d time.Time) []Agenda {
 	for i := range a {
 		ag := make([]Task, 0)
 		for _, k := range ts {
-			if formatDate(week[i]) == k.Scheduled && k.Done == "Todo" {
+			if week[i] == k.Scheduled && k.Done == "Todo" {
 				ag = append(ag, k)
 			}
 		}
@@ -119,16 +124,18 @@ func decodeTask(r io.ReadCloser) (*Task, error) {
 	err := json.NewDecoder(r).Decode(&task)
 	return &task, err
 }
-func listTasks(c appengine.Context) ([]Task, error) {
+func listTasks(c appengine.Context) (TaskAndAgenda, error) {
 	tasks := []Task{}
 	keys, err := datastore.NewQuery("Task").Ancestor(tasklistkey(c)).Order("-Done").Order("Scheduled").GetAll(c, &tasks)
 	if err != nil {
-		return nil, err
+		return TaskAndAgenda{}, err
 	}
 	for i := 0; i < len(tasks); i++ {
 		tasks[i].Id = keys[i].IntID()
 	}
-	return tasks, err
+	ag := agendaOverview(tasks, time.Now())
+	taa := TaskAndAgenda{Tasks: tasks, Agendaslice: ag}
+	return taa, err
 }
 
 func init() {
