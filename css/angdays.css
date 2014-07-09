@@ -20,7 +20,7 @@ p {
 }
 
 .ntaskform {
-    width:60%;
+    width:80%;
     padding:8px;
     background-color:#ffffff;
     border-radius:4px;
@@ -38,13 +38,13 @@ p {
 }
 .singletask {
     padding:12px;
-    width:40rem;
+    width:50rem;
     margin:auto;
     margin-top:6px;
     text-align:center;
     box-shadow:1px 1px 3px 4px;
     background-color:#ffffff;
-    opacity:0.8;
+    opacity:0.96;
     border-radius:6px;
     border-style:solid;
     border-color:#2e1132;
@@ -94,4 +94,8 @@ border-radius:4px;
     color:#e8e8e8;
 
 
+}
+h3 > span {
+    text-decoration:line-through;
+    padding:6px;
 }
