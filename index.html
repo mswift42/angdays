@@ -1,16 +1,19 @@
 <!doctype html>
 <html ng-app="daysApp">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Days</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+
     <link href="/css/angdays.css" rel="stylesheet"/>
   </head>
-  <body ng-controller="DaysController">
+  <body >
     <div class="navbar navbar-fixed-top navbar-inverse" role="navigation" bs-navbar>
       <ul class="nav navbar-nav">
-        <li data-match-route="/?(navbar)?"><a href="#/">Home</a></li>
-        <li data-match-route="/newtask"><a href="/#newtask">New Task</a></li>
+        <li data-match-route="/tasks"><a href="#/tasks">Tasks</a></li>
         <li data-match-route="/about"><a href="#/about">About</a></li>
       </ul>
       <div class="navbar-header pull-right">
