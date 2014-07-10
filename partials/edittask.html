@@ -1,0 +1,23 @@
+<div class="edtask" ng-controller="TaskCtrl" >
+  <form  name="editform" role="form" >
+    <div class="form-group">
+      <input name="editsummary" class="form-control" ng-model="task.summary" type="text"/>
+    </div>
+    <div class="form-group">
+      <textarea class="form-control" cols="30"  name="editcontent" rows="5" ng-model="task.content" >
+      </textarea>
+    </div>
+    <div class="form-group">
+      <input class="form-control" name="date" bs-datepicker type="text" ng-model="task.scheduled" />
+    </div>
+    <div class="form-group">
+      <input type="radio" name="Done" id="optionsRadios1" ng-model="task.Done"> Todo
+    </div>
+    <div class="form-group">
+      <input type="radio" name="Done" id="optionsRadios2"  ng-model="task.Done"> Done
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary" type="submit" ng-click="save()">save</button>
+    </div>
+  </form>
+</div>
