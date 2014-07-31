@@ -40,9 +40,20 @@
                 </div>
                 <br/>
                 <p>{{task.content}}</p>
-                <p>{{task.scheduled | date}}</p>
-              </div>
+                <p>Scheduled: {{task.scheduled | date}}</p>
+
+
             </div>
+              <div class="edbutton">
+              <button class="bttn" ng-click="showedit=true">Edit Task</button>
+              </div>
+
+              <div class="editform" ng-show="showedit" >
+                <div ng-include src=" 'partials/edittask.html' "></div>
+            </div>
+            </div>
+            </div>
+
           </div>
         </div>
       </div>

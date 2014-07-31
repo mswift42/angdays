@@ -4,15 +4,31 @@ daysApp.factory('Task', function($resource) {
     var Task = $resource('/tasks');
     return Task;
 });
+daysApp.factory('Edittask', function($resource) {
+    return $resource('/tasks/', {},{
+        update: {method: 'PUT'}
+    });
+});
+
 daysApp.controller('ScrollCtrl',function($scope,$location,$anchorScroll) {
     $scope.scrollToTask = function(task) {
         $location.hash(task.id);
         $anchorScroll();
     };
 });
+daysApp.controller('EditCtrl',function($scope) {
+    $scope.submit= function() {
+        edtask.summary = $scope.taskSummary;
+        edtask.content = $scope.taskContent;
+        edtask.scheduled = $scope.taskScheduled;
+        edtask.$save();
 
 
-daysApp.controller('TaskCtrl', function($scope, Task,$filter) {
+    };
+});
+
+
+daysApp.controller('TaskCtrl', function($scope, Task,Edittask,$filter,$resource) {
     Task.get(function(data) {
         $scope.tasks = data.tasks;
         $scope.agendas = data.agendaslice;
@@ -26,7 +42,6 @@ daysApp.controller('TaskCtrl', function($scope, Task,$filter) {
             task.scheduled = $scope.taskScheduled;
             task.done = "Todo";
             task.$save();
-            task.state =  'saving';
             $scope.tasks.push(task);
             $scope.taskSummary = '';
             $scope.taskContent = '';
@@ -34,27 +49,25 @@ daysApp.controller('TaskCtrl', function($scope, Task,$filter) {
             $scope.$apply(function() {
                 $scope.showtask = true;
             });
-            $scope.$route.reload();
-            task.updating = true;
-            task.state = 'updating';
-
+//            $scope.$route.reload();
         }
     };
+
+
     $scope.change = function(task) {
+        console.log(task);
+        console.log(Edittask);
+        console.log(typeof Edittask);
+        console.log(Task);
         task.$save();
-        task.state = 'updating';
+
+
+
     };
     $scope.disabled = function(task) {
         return task.state !== undefined;
     };
 
-    // $scope.archive = function() {
-    //     Task.remove(function() {
-    //         Task.query(function(tasks) {
-    //             $scope.tasks = tasks;
-    //         });
-    //     });
-    // };
 });
 
 
@@ -68,6 +81,7 @@ daysApp.config(function($routeProvider) {
         when('/about', {
             templateUrl: 'partials/about.html'
         }).
+
         otherwise({
             redirectTo: '/'
         });
