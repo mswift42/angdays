@@ -5,7 +5,7 @@ daysApp.factory('Task', function($resource) {
     return Task;
 });
 daysApp.factory('Edittask', function($resource) {
-    return $resource('/tasks/', {},{
+    return $resource('/tasks/:id', {},{
         update: {method: 'PUT'}
     });
 });
@@ -16,16 +16,6 @@ daysApp.controller('ScrollCtrl',function($scope,$location,$anchorScroll) {
         $anchorScroll();
     };
 });
-daysApp.controller('EditCtrl',function($scope) {
-    $scope.submit= function() {
-        edtask.summary = $scope.taskSummary;
-        edtask.content = $scope.taskContent;
-        edtask.scheduled = $scope.taskScheduled;
-        edtask.$save();
-
-
-    };
-});
 
 
 daysApp.controller('TaskCtrl', function($scope, Task,Edittask,$filter,$resource) {
@@ -34,13 +24,13 @@ daysApp.controller('TaskCtrl', function($scope, Task,Edittask,$filter,$resource)
         $scope.agendas = data.agendaslice;
     });
 
-    $scope.addTask = function(newtaskform,$filter) {
+    $scope.addTask = function(newtaskform) {
         if (newtaskform.$valid) {
             var task = new Task();
             task.summary = $scope.taskSummary;
             task.content = $scope.taskContent;
             task.scheduled = $scope.taskScheduled;
-            task.done = "Todo";
+            task.done = 'Todo';
             task.$save();
             $scope.tasks.push(task);
             $scope.taskSummary = '';

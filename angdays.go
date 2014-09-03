@@ -5,7 +5,10 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
 	"time"
+
+	"github.com/gorilla/mux"
 
 	"appengine"
 	"appengine/datastore"
@@ -138,10 +141,23 @@ func listTasks(c appengine.Context) (TaskAndAgenda, error) {
 	return taa, err
 }
 
-func init() {
-	http.HandleFunc("/tasks", handler)
+func listTask(c appengine.Context, id int64) (*Task, error) {
+	tasks := []Task{}
+	_, err := datastore.NewQuery("Task").Ancestor(tasklistkey(c)).Filter("Id =", id).GetAll(c, &tasks)
+	if err != nil {
+		return nil, err
+	}
+	return &tasks[0], err
 }
 
+func init() {
+	router := mux.NewRouter()
+	router.HandleFunc("/tasks", handler)
+	router.HandleFunc("/tasks/user/", tasksHandler)
+	router.HandleFunc("/tasks/id/", listTaskHandler)
+	http.Handle("/tasks", router)
+
+}
 func handler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	val, err := handleTasks(c, r)
@@ -154,7 +170,53 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+func tasksHandler(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+	val, err := handleTasks(c, r)
+	if err == nil {
+		err = json.NewEncoder(w).Encode(val)
+	}
+	if err != nil {
+		c.Errorf("task error: %#v", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
 
+func listTaskHandler(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+	val, err := handleTask(c, r)
+	if err == nil {
+		err = json.NewEncoder(w).Encode(val)
+	}
+	if err != nil {
+		c.Errorf("task error: %#v", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+func postTaskHandler(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+	task, err := decodeTask(r.Body)
+	if err != nil {
+		c.Errorf("task error: %#v", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	if _, err := task.save(c); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+func handleTask(c appengine.Context, r *http.Request) (interface{}, error) {
+	id, err := strconv.ParseInt(r.FormValue("id"), 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	lt, err := listTask(c, id)
+	if err != nil {
+		return nil, err
+	}
+	return lt, nil
+}
 func handleTasks(c appengine.Context, r *http.Request) (interface{}, error) {
 	switch r.Method {
 	case "POST":

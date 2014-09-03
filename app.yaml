@@ -10,7 +10,8 @@ handlers:
 
 - url: /js
   static_dir: js
-
+- url: /bower_components
+  static_dir: bower_components
 - url: /partials
   static_dir: partials
 

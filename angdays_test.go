@@ -1,6 +1,7 @@
 package angdays
 
 import (
+	"reflect"
 	"testing"
 	"time"
 
@@ -26,8 +27,10 @@ func TestTaskStruct(t *testing.T) {
 }
 
 func TestAgendaStruct(t *testing.T) {
-	task1 := Task{Summary: "task1", User: "test@example.com", Done: "Todo"}
-	task2 := Task{Summary: "task2", Done: "Done", Scheduled: "05/07/2014"}
+	task1 := Task{Summary: "task1", User: "test@example.com",
+		Done: "Todo", Scheduled: parseTime("02/02/2014")}
+	task2 := Task{Summary: "task2", Done: "Done",
+		Scheduled: parseTime("04/05/2006")}
 	tasks := []Task{task1, task2}
 	t1 := Agenda{FancyDate: "Saturday, 05 Jul 2014", Taskslice: tasks}
 	if t1.FancyDate != "Saturday, 05 Jul 2014" {
@@ -62,8 +65,7 @@ func TestFormatDate(t *testing.T) {
 }
 
 func TestTasks(t *testing.T) {
-	assert := assert.New(t)
-	t1 := Task{Summary: "task1", Content: "Some content", Done: "Done"}
+	t1 := Task{Summary: "task1", Content: "Some content", Done: "Done", Scheduled: parseTime("01/01/2012")}
 	t2 := Task{Summary: "task2", Done: "Todo"}
 	c, err := aetest.NewContext(nil)
 	u := user.Current(c)
@@ -86,12 +88,16 @@ func TestTasks(t *testing.T) {
 	if err := datastore.Get(c, key, &gt1); err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(gt1, t1, "returned datastore object == t1")
+	if !reflect.DeepEqual(gt1, t1) {
+		t.Error("Expected gt1 == t1, got: ", gt1, t1)
+	}
 
 	if err := datastore.Get(c, nkey, &gt2); err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(gt2, t2, "returned datasotre object == t2")
+	if !reflect.DeepEqual(gt2, t2) {
+		t.Error("Expected gt2 == t2, got: ", gt2, t2)
+	}
 
 	defer c.Close()
 }
