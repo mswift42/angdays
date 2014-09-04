@@ -1,0 +1,36 @@
+<div class="newtaskform" ng-controller="TaskCtrl">
+  <h2 class="header">New Task</h2>
+  <br/>
+  <br/>
+  <form ng-submit="addTask()" noviladate class="form-horizontal" id="postform" >
+    <fieldset>
+      <div class="content">
+        <div class="control-group">
+          <label class="control-label" for="textinput">Task Summary</label>
+          <div class="controls">
+            <input id="textinput" ng-model="taskSummary" name="tinput" class="form-control input-md" type="text">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="tarea">Task Contents</label>
+          <div class="controls">
+            <textarea class="form-control" name="tarea" id="tarea" rows="5" ng-model="taskContent"></textarea>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls" ng-class="{'has-error': datepickerForm.date.$invalid}">
+            <label for="scheduled" class="control-label"><i class="fa fa-calendar"></i></label>
+            <input type="text" ng-model="task.scheduled" class="form-control" name="scheduled" bs-datepicker>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <button id="singlebutton" name="submitbutton" class="btn">Submit</button>
+            <button id="closebutton" name="closebutton" class="btn" ng-click="showtask=false">Hide</button>
+          </div>
+        </div>
+      </div>
+</div>
+</fieldset>
+</form>
+</div>
