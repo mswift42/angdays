@@ -1,7 +1,8 @@
 package angdays
 
 import (
-	"html/template"
+	"fmt"
+	"net/http"
 	"time"
 
 	"appengine"
@@ -97,15 +98,13 @@ func agendaOverview(ts []Task, d time.Time) []Agenda {
 	return a
 }
 
-// withLayout - take a template name and a templatefile
-// and return it combined with layout.tmpl.
-func withLayout(name, templ string) *template.Template {
-	return template.Must(template.New(name).ParseFiles(templ, "templates/layout.tmpl"))
-}
-
 func tasklistkey(c appengine.Context) *datastore.Key {
 	return datastore.NewKey(c, "Task", "default_tasklist", 0, nil)
 
+}
+
+func home(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "success")
 }
 
 // func (t *Task) key(c appengine.Context) *datastore.Key {
