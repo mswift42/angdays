@@ -36,7 +36,7 @@
             <div class="task-{{task.state}}" ng-repeat="task in tasks">
               <div class="singletask">
                 <span>{{task.done}}</span>
-                <div class="tsummary" id={{task.id}} ng-model="taskSummary" ng-change="change(task)">
+                <div class="tsummary" id={{task.id}} ng-model="taskSummary" ng-change="update(task)">
                   <p>{{task.summary}}</p>
                 </div>
                 <br/>
@@ -46,7 +46,7 @@
 
             </div>
               <div class="edbutton">
-              <button class="bttn" ng-click="showedit=true">Edit Task</button>
+              <button class="bttn" ng-click="showedit=!showedit">Edit Task</button>
               </div>
 
               <div class="editform" ng-show="showedit" >
