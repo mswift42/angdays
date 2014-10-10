@@ -36,6 +36,10 @@ type TaskAndAgenda struct {
 	Agendaslice []Agenda `json:"agendaslice"`
 }
 
+func keyForID(c appengine.Context, id int64) *datastore.Key {
+	return datastore.NewKey(c, "Task", "", id, tasklistkey(c))
+}
+
 // agendasize constant, describes size of agendaoverview in days
 const (
 	agendasize int64 = 10
@@ -154,7 +158,7 @@ func init() {
 	router := mux.NewRouter()
 	router.HandleFunc("/tasks", handler)
 	router.HandleFunc("/tasks/user/", tasksHandler)
-	router.HandleFunc("/tasks/id/", listTaskHandler)
+	router.HandleFunc("/tasks/{id}/", listTaskHandler)
 	http.Handle("/tasks", router)
 
 }
@@ -185,15 +189,15 @@ func tasksHandler(w http.ResponseWriter, r *http.Request) {
 
 func listTaskHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
-	val, err := handleTask(c, r)
+	task, err := decodeTask(r.Body)
 	if err == nil {
-		err = json.NewEncoder(w).Encode(val)
-	}
-	if err != nil {
-		c.Errorf("task error: %#v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
 	}
+
+	if _, err := task.save(c); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
 }
 func postTaskHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)

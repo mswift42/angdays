@@ -47,7 +47,12 @@ daysApp.controller('TaskCtrl', function(Task,Edittask, $scope)  {
         }
     };
     $scope.update = function(task) {
-        Edittask.update({id:task.id});
+        $scope.task.summary = task.summary;
+        $scope.task.content = task.content;
+        $scope.task.scheduled = task.scheduled;
+        $scope.task.done = task.done;
+        Edittask.update({id:task.id,summary:task.summary,content:task.content,
+                         done:task.done,scheduled:task.scheduled});
     };
 
 
