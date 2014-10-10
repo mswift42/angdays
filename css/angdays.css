@@ -1,4 +1,9 @@
+html {
+    box-sizing:border-box;
+}
+
 body {
+    box-sizing:inherit;
     margin-top:80px;
     background-image:url( "/stylesheets/days1.png");
 
@@ -25,6 +30,11 @@ p {
     background-color:#ffffff;
     border-radius:4px;
     margin:auto;
+}
+.taskoverview {
+    width:90%;
+    display:inline;
+    margin:8px 8px 8px 8px;
 }
 .tasks {
     display:table;
