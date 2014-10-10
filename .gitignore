@@ -3,3 +3,10 @@ dist
 .tmp
 .sass-cache
 bower_components
+/Makefile
+/.bowerrc
+/.editorconfig
+/.gitattributes
+/.jshintrc
+/.travis.yml
+/index.yaml
