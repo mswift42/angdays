@@ -1,16 +1,19 @@
 var daysApp = angular.module('daysApp', ['ngRoute', 'mgcrea.ngStrap', 'ngResource']);
 
 daysApp.factory('Task', function($resource) {
+    'use strict';
     var Task = $resource('/tasks');
     return Task;
 });
 daysApp.factory('Edittask', function($resource) {
+    'use strict';
     return $resource('/tasks/:id', {},{
-        update: {method: 'PUT'}
+        update: {method: 'POST'}
     });
 });
 
 daysApp.controller('ScrollCtrl',function($scope,$location,$anchorScroll) {
+    'use strict';
     $scope.scrollToTask = function(task) {
         $location.hash(task.id);
         $anchorScroll();
@@ -18,7 +21,8 @@ daysApp.controller('ScrollCtrl',function($scope,$location,$anchorScroll) {
 });
 
 
-daysApp.controller('TaskCtrl', function($scope, Task,Edittask,$filter,$resource) {
+daysApp.controller('TaskCtrl', function(Task,Edittask, $scope)  {
+    'use strict';
     Task.get(function(data) {
         $scope.tasks = data.tasks;
         $scope.agendas = data.agendaslice;
@@ -42,18 +46,13 @@ daysApp.controller('TaskCtrl', function($scope, Task,Edittask,$filter,$resource)
 //            $scope.$route.reload();
         }
     };
-
-
-    $scope.change = function(task) {
-        console.log(task);
-        console.log(Edittask);
-        console.log(typeof Edittask);
-        console.log(Task);
-        task.$save();
-
-
-
+    $scope.update = function(task) {
+        Edittask.update({id:task.id});
     };
+
+
+
+
     $scope.disabled = function(task) {
         return task.state !== undefined;
     };
