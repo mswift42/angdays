@@ -1,8 +1,14 @@
 package angdays
 
 import (
+	"io/ioutil"
+	"net/http"
+	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
+
+	"code.google.com/p/appengine-go/appengine/aetest"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -58,4 +64,25 @@ func TestFormatDateFancy(t *testing.T) {
 		}
 		assert.Equal(i.fancy, formatDateFancy(t1))
 	}
+}
+func TestHandler(t *testing.T) {
+	c, cerr := aetest.NewContext(nil)
+	if cerr != nil {
+		t.Fatal(cerr)
+	}
+	resp := httptest.NewRecorder()
+	uri := "/tasks"
+	req, err := http.NewRequest("GET", uri, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	http.DefaultServeMux.ServeHTTP(c, req)
+	if p, err := ioutil.ReadAll(resp.Body); err != nil {
+		t.Fail()
+	} else {
+		if strings.Contains(string(p), "Error") {
+			t.Errorf("header response shoudn't return error: %s", p)
+		}
+	}
+
 }
