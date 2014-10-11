@@ -36,13 +36,13 @@ daysApp.controller('TaskCtrl', function(Task,Edittask, $scope)  {
             task.scheduled = $scope.taskScheduled;
             task.done = 'Todo';
             task.$save();
-            $scope.tasks.push(task);
+            $scope.tasks.push(task.tasks);
             $scope.taskSummary = '';
             $scope.taskContent = '';
             $scope.taskScheduled = '';
-            $scope.$apply(function() {
-                $scope.showtask = true;
-            });
+            // $scope.$apply(function() {
+            //     $scope.showtask = true;
+            // });
 //            $scope.$route.reload();
         }
     };
@@ -53,10 +53,10 @@ daysApp.controller('TaskCtrl', function(Task,Edittask, $scope)  {
         $scope.task.done = task.done;
         Edittask.update({id:task.id,summary:task.summary,content:task.content,
                          done:task.done,scheduled:task.scheduled});
+        $scope.$apply(function() {
+            $scope.showedit = false;
+        });
     };
-
-
-
 
     $scope.disabled = function(task) {
         return task.state !== undefined;
@@ -67,6 +67,7 @@ daysApp.controller('TaskCtrl', function(Task,Edittask, $scope)  {
 
 
 daysApp.config(function($routeProvider) {
+    'use strict';
     $routeProvider.
         when('/', {
             templateUrl: 'partials/tasks.html',
@@ -80,13 +81,15 @@ daysApp.config(function($routeProvider) {
             redirectTo: '/'
         });
 });
-daysApp.directive("navbarHeader",function() {
+daysApp.directive('navbarHeader', function() {
+    'use strict';
     return {
         restrict: 'EA',
-        templateUrl: "partials/navbar.html"
+        templateUrl: 'partials/navbar.html'
     };
 });
 daysApp.config(function($datepickerProvider) {
+    'use strict';
     angular.extend($datepickerProvider.defaults, {
         dateFormat: 'dd/MM/yyyy',
         startWeek: 1,
