@@ -21,7 +21,7 @@ daysApp.controller('ScrollCtrl',function($scope,$location,$anchorScroll) {
 });
 
 
-daysApp.controller('TaskCtrl', function(Task,Edittask, $scope)  {
+daysApp.controller('TaskCtrl', function(Task,Edittask, $scope,$location )  {
     'use strict';
     Task.get(function(data) {
         $scope.tasks = data.tasks;
@@ -40,22 +40,19 @@ daysApp.controller('TaskCtrl', function(Task,Edittask, $scope)  {
             $scope.taskSummary = '';
             $scope.taskContent = '';
             $scope.taskScheduled = '';
-            // $scope.$apply(function() {
-            //     $scope.showtask = true;
-            // });
-//            $scope.$route.reload();
+            $scope.showtask=!$scope.showtask;
+            $location.path('/tasks');
         }
     };
     $scope.update = function(task) {
+        $scope.showedit = !$scope.showedit;
+        console.log($scope.showedit);
         $scope.task.summary = task.summary;
         $scope.task.content = task.content;
         $scope.task.scheduled = task.scheduled;
         $scope.task.done = task.done;
         Edittask.update({id:task.id,summary:task.summary,content:task.content,
                          done:task.done,scheduled:task.scheduled});
-        $scope.$apply(function() {
-            $scope.showedit = false;
-        });
     };
 
     $scope.disabled = function(task) {
@@ -71,7 +68,6 @@ daysApp.config(function($routeProvider) {
     $routeProvider.
         when('/', {
             templateUrl: 'partials/tasks.html',
-            controller: 'TaskCtrl'
         }).
         when('/about', {
             templateUrl: 'partials/about.html'
