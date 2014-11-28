@@ -1,5 +1,5 @@
 <div class="ntaskform" ng-controller="TaskCtrl" ng-show="showtask">
-  <form novalidate role="form" action="#/" method="post" name="newtaskform" ng-submit="addTask(newtaskform)">
+  <form novalidate role="form" name="newtaskform" ng-submit="addTask(newtaskform)">
     <div class="form-group">
       <label for="tinput">Task Summary</label>
       <input type="text" required name="tinput" class="form-control" ng-model="taskSummary"  />
