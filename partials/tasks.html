@@ -13,7 +13,7 @@
               </div>
               <div class="tasksperdate" ng-repeat="task in agenda.taskslice">
                 <div class="singletaskperdate" ng-controller="ScrollCtrl">
-                  <a ng-click="scrollToTask(task)">{{task.summary}}</a>
+                  <a ng-click="scrollToTask(task.id)">{{task.summary}}</a>
                 </div>
               </div>
             </div>
@@ -31,7 +31,7 @@
         <div class="ntask" ng-show="showtask">
           <div ng-include src=" 'partials/newtask.html' "></div>
         </div>
-        <div ng-controller="TaskCtrl">a
+        <div >
           <div class="tasklist">
             <div class="task-{{task.state}}" ng-repeat="task in tasks">
               <div class="singletask">
@@ -45,11 +45,11 @@
 
 
             </div>
-              <div class="edbutton">
+              <div class="edbutton" >
               <button class="bttn" ng-click="showedit=!showedit">Edit Task</button>
               </div>
 
-              <div class="editform" ng-show="showedit" >
+              <div class="editform" ng-show="showedit">
                 <div ng-include src=" 'partials/edittask.html' "></div>
             </div>
             </div>

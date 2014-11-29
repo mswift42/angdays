@@ -14,8 +14,8 @@ daysApp.factory('Edittask', function($resource) {
 
 daysApp.controller('ScrollCtrl',function($scope,$location,$anchorScroll) {
     'use strict';
-    $scope.scrollToTask = function(task) {
-        $location.hash(task.id);
+    $scope.scrollToTask = function(id) {
+        $location.hash(id);
         $anchorScroll();
     };
 });
