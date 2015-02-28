@@ -109,3 +109,8 @@ h3 > span {
     text-decoration:line-through;
     padding:6px;
 }
+.edbutton {
+    width:20%;
+    padding:8px;
+    margin:auto;
+}
