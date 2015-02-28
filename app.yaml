@@ -5,21 +5,26 @@ api_version: go1
 
 handlers:
 - url: /
-  static_files: index.html
-  upload: index\.html
+  static_files: app/index.html
+  upload: app/index\.html
 
 - url: /js
-  static_dir: js
+  static_dir: app/js
 - url: /bower_components
   static_dir: bower_components
-- url: /partials
-  static_dir: partials
+- url: /views
+  static_dir: app/views
+
+- url: /scripts
+  static_dir: app/scripts
 
 - url: /css
-  static_dir: css
+  static_dir: app/css
 
-- url: /stylesheets
-  static_dir: stylesheets
+- url: /styles
+  static_dir: app/styles
+- url: /images
+  static_dir: app/images
 
 - url: /tasks
   script: _go_app
