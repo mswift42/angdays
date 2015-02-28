@@ -153,6 +153,9 @@ func listTask(c appengine.Context, id int64) (*Task, error) {
 	}
 	return &tasks[0], err
 }
+func (t *Task) delete(c appengine.Context) error {
+	return datastore.Delete(c, t.key(c))
+}
 
 func init() {
 	router := mux.NewRouter()
@@ -231,8 +234,12 @@ func handleTasks(c appengine.Context, r *http.Request) (interface{}, error) {
 		return task.save(c)
 	case "GET":
 		return listTasks(c)
-		// case "DELETE":
-		// 	return nil, deleteDoneTodos(c)
+	case "DELETE":
+		task, err := decodeTask(r.Body)
+		if err != nil {
+			return nil, err
+		}
+		return nil, task.delete(c)
 	}
 	return nil, fmt.Errorf("method not implemented")
 }
