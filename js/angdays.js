@@ -12,6 +12,13 @@ daysApp.factory('Edittask', function($resource) {
     });
 });
 
+daysApp.factory('Deletetask', function($resource) {
+    'use strict';
+    return $resource('tasks/:id', {},{
+        delete: {method: 'DELETE'}
+    });
+});
+
 daysApp.controller('ScrollCtrl',function($scope,$location,$anchorScroll) {
     'use strict';
     $scope.scrollToTask = function(id) {
@@ -21,7 +28,7 @@ daysApp.controller('ScrollCtrl',function($scope,$location,$anchorScroll) {
 });
 
 
-daysApp.controller('TaskCtrl', function(Task,Edittask, $scope,$location )  {
+daysApp.controller('TaskCtrl', function(Task,Edittask, Deletetask,$scope,$location )  {
     'use strict';
     Task.get(function(data) {
         $scope.tasks = data.tasks;
@@ -53,6 +60,12 @@ daysApp.controller('TaskCtrl', function(Task,Edittask, $scope,$location )  {
         $scope.task.done = task.done;
         Edittask.update({id:task.id,summary:task.summary,content:task.content,
                          done:task.done,scheduled:task.scheduled});
+    };
+    $scope.delete = function(task) {
+        $scope.showedit = !$scope.showedit;
+        Deletetask.delete({id:task.id,summary:task.summary,content:task.content,
+                         done:task.done,scheduled:task.scheduled});
+        $location.path('/tasks');
     };
 
     $scope.disabled = function(task) {
