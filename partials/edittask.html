@@ -1,5 +1,5 @@
-<div class="edtask" ng-controller="TaskCtrl" >
-  <form  name="editform" role="form" ng-submit="update(task)">
+<div class="edtask" ng-controller="TaskCtrl" ng-show="showedit">
+    <form  name="editform" role="form" ng-submit="update(task)">
     <div class="form-group">
       <input name="editsummary" class="form-control" ng-model="task.summary" type="text"/>
     </div>
@@ -11,13 +11,14 @@
       <input class="form-control" name="date" bs-datepicker type="text" ng-model="task.scheduled" />
     </div>
     <div class="form-group">
-      <input type="radio" name="Done" id="optionsRadios1" ng-model="task.Done"> Todo
+      <input type="radio" name="Done" id="optionsRadios1" ng-model="task.done"> Todo
     </div>
     <div class="form-group">
-      <input type="radio" name="Done" id="optionsRadios2"  ng-model="task.Done"> Done
+      <input type="radio" name="Done" id="optionsRadios2"  ng-model="task.done"> Done
     </div>
     <div class="form-group">
-      <button class="btn btn-primary" type="submit" >save</button>
+        <button class="btn btn-primary" type="submit">save</button>
+        <button class="btn btn-danger" on-click="delete(task)">delete</button>
     </div>
   </form>
 </div>
