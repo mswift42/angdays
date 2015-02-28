@@ -1,0 +1,21 @@
+<div class="container">
+<div class="ntform" ng-controller="NewtaskCtrl">
+  <div class="container">
+    <h4 class="subformheader">New Task</h4>
+    <form >
+      <div class="form-group">
+        <label for="">Task Summary</label>
+        <input type="text" name="summary" class="form-control" ng-model="formData.summary" ng-focus="revealContent()">
+        <span class="help-block"></span>
+      </div>
+      <div class="tcontent" ng-hide="showContent">
+      <div class="form-group">
+        <label for="">Task Content</label>
+        <textarea name="content" class="form-control" ng-model="formData.content" rows="3" ></textarea>
+        <span class="help-block"></span>
+      </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
