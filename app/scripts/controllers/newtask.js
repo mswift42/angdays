@@ -9,10 +9,8 @@
  */
 angular.module('angDaysApp')
     .controller('NewtaskCtrl', function ($scope) {
+        $scope.hideContent = true;
         $scope.revealContent = function () {
-            console.log($scope.showContent);
-            $scope.showContent = !$scope.showContent;
+            $scope.hideContent = !$scope.hideContent;
         };
-
-        
   });
