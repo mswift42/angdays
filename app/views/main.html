@@ -16,6 +16,11 @@
         <label for="">Task Content</label>
         <textarea name="content" class="form-control" ng-model="formData.content" rows="3" ></textarea>
         <span class="help-block"></span>
+        <label>Scheduled Date (format: yyyy-mm-dd)</label><br/>
+        <input type="text" pick-a-date="date" placeholder="Select Date"
+               name="scheduled" pick-a-date-options="datepickeroptions"
+               />
+
       </div>
       </div>
     </form>
