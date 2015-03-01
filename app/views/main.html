@@ -2,13 +2,16 @@
 <div class="ntform" ng-controller="NewtaskCtrl">
   <div class="container">
     <h4 class="subformheader">New Task</h4>
-    <form >
+    <form name="newtaskform" novalidate>
       <div class="form-group">
         <label for="">Task Summary</label>
-        <input type="text" name="summary" class="form-control" ng-model="formData.summary" ng-focus="revealContent()">
-        <span class="help-block"></span>
+        <input type="text" name="summary" class="form-control"
+               ng-model="formData.summary" ng-focus="revealContent()"
+               ng-minlength="3" required>
+        <span ng-show="newtaskform.summary.$invalid && newtaskform.summary.$dirty"
+              class="help-block">Please provide a Task Summary with at least 3 characters.</span>
       </div>
-      <div class="tcontent" ng-hide="showContent">
+      <div class="tcontent" ng-hide="hideContent">
       <div class="form-group">
         <label for="">Task Content</label>
         <textarea name="content" class="form-control" ng-model="formData.content" rows="3" ></textarea>
