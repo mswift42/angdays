@@ -13,4 +13,8 @@ angular.module('angDaysApp')
         $scope.revealContent = function () {
             $scope.hideContent = !$scope.hideContent;
         };
+        $scope.datepickeroptions = {
+            format: 'yyyy-mm-dd'
+        };
+            
   });
