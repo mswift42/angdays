@@ -1,3 +1,4 @@
+<div ng-controller="MainCtrl">
 <div class="container">
 <div class="ntform" ng-controller="NewtaskCtrl">
   <div class="container">
@@ -27,5 +28,15 @@
       </div>
     </form>
   </div>
+</div>
+<div class="tasklist" ng-controller="TasklistCtrl">
+  <ul class="tasklistlsit">
+    <li class="singletask" ng-repeat="t in tasks">
+      <div class="tasksummary">{{t.summary}}</div>
+      <div class="taskcontent">{{t.content}}</div>
+      <div class="taskscheduled">{{t.scheduled}}</div>
+    </li>
+  </ul>
+</div>
 </div>
 </div>
