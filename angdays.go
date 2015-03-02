@@ -131,18 +131,16 @@ func decodeTask(r io.ReadCloser) (*Task, error) {
 	err := json.NewDecoder(r).Decode(&task)
 	return &task, err
 }
-func listTasks(c appengine.Context) (TaskAndAgenda, error) {
+func listTasks(c appengine.Context) (*[]Task, error) {
 	tasks := []Task{}
 	keys, err := datastore.NewQuery("Task").Ancestor(tasklistkey(c)).Order("-Done").Order("Scheduled").GetAll(c, &tasks)
 	if err != nil {
-		return TaskAndAgenda{}, err
+		return nil, err
 	}
 	for i := 0; i < len(tasks); i++ {
 		tasks[i].Id = keys[i].IntID()
 	}
-	ag := agendaOverview(tasks, time.Now())
-	taa := TaskAndAgenda{Tasks: tasks, Agendaslice: ag}
-	return taa, err
+	return &tasks, err
 }
 
 func listTask(c appengine.Context, id int64) (*Task, error) {
