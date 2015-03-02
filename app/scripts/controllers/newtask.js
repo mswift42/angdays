@@ -8,7 +8,7 @@
  * Controller of the angDaysApp
  */
 angular.module('angDaysApp')
-    .controller('NewtaskCtrl', function ($scope,$http) {
+    .controller('NewtaskCtrl', function ($scope,$http,shareTasks) {
         $scope.hideContent = true;
         $scope.revealContent = function () {
             $scope.hideContent = !$scope.hideContent;
@@ -17,12 +17,14 @@ angular.module('angDaysApp')
             format: 'yyyy-mm-dd'
         };
         $scope.saveTask = function() {
-            console.log($scope.newtaskform);
-            $http.post("/tasks",{"summary":$scope.formData.summary,
-                                 "content":$scope.formData.content,
-                                 "scheduled":$scope.formData.scheduled}).success(function() {
+            var task = {"summary":$scope.formData.summary,
+                        "content": $scope.formData.content,
+                        "scheduled": $scope.formData.scheduled};
+            $http.post("/tasks",task).success(function() {
                                      $scope.hideContent = true;
-                                     $scope.formData.summary = '';});
+                $scope.formData.summary = '';
+                shareTasks.add(task);
+            });
             
         };
   });
