@@ -8,18 +8,20 @@
         <input type="text" name="summary" class="form-control"
                ng-model="formData.summary" ng-focus="revealContent()"
                ng-minlength="3" required>
-        <span ng-show="newtaskform.summary.$invalid && newtaskform.summary.$dirty"
-              class="help-block">Please provide a Task Summary with at least 3 characters.</span>
       </div>
       <div class="tcontent" ng-hide="hideContent">
+        
+        <span ng-show="newtaskform.summary.$invalid && newtaskform.summary.$dirty"
+              class="help-block">Please provide a Task Summary with at least 3 characters.</span>
       <div class="form-group">
         <label for="">Task Content</label>
         <textarea name="content" class="form-control" ng-model="formData.content" rows="3" ></textarea>
         <span class="help-block"></span>
-        <label>Scheduled Date (format: yyyy-mm-dd)</label><br/>
-        <input type="text" pick-a-date="date" placeholder="Select Date"
-               name="scheduled" pick-a-date-options="datepickeroptions"
-               />
+        <label>Scheduled Date <small>(format: dd/mm/yyyy)</small></label><br/>
+        <input type="text" class="form-control" ng-model="formData.scheduled" name="scheduled" bs-datepicker >
+        <span class="help-block"></span>
+        <button  class="btn btn-default" ng-disabled="newtaskform.$invalid"
+                 ng-click="saveTask()">Save</button>
 
       </div>
       </div>
