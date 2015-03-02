@@ -8,10 +8,10 @@
  * Controller of the angDaysApp
  */
 angular.module('angDaysApp')
-  .controller('TasklistCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+    .controller('TasklistCtrl', function ($scope, $http,shareTasks) {
+        $http.get('/tasks')
+            .success(function(data) {
+                $scope.tasks = data ;
+                shareTasks.settasks($scope.tasks);
+            });
   });
