@@ -16,7 +16,7 @@ angular
     'ngRoute',
     'ngSanitize',
       'ngTouch',
-      'angular-datepicker'
+      'mgcrea.ngStrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -31,4 +31,10 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+    .config(function($datepickerProvider) {
+        angular.extend($datepickerProvider.defaults, {
+            dateFormat: 'dd/MM/yyyy'
+        });
+    });
+
