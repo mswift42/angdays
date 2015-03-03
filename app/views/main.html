@@ -37,10 +37,10 @@
     <md-item class="singletask" ng-repeat="t in tasks">
       <md-item-content>
         <div class="md-tile-content">
-          <div class="summaryview">
+          <div class="summaryview" ng-click="revealContent()">
             <h3>{{t.summary}}</h3>
           </div>
-          <div class="contentview">
+          <div class="contentview" ng-hide="hideContent">
           <h4>{{t.content}}</h4>
           <h4>{{t.scheduled | date: "dd/MM/yyyy"}}</h4>
           </div>
