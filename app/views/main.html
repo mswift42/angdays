@@ -6,9 +6,11 @@
     <form name="newtaskform" novalidate>
       <div class="form-group">
         <label for="">Task Summary</label>
+        <md-input-container>
         <input type="text" name="summary" class="form-control"
                ng-model="formData.summary" ng-focus="revealContent()"
                ng-minlength="3" required>
+        </md-input-container>
       </div>
       <div class="tcontent" ng-hide="hideContent">
         
@@ -30,13 +32,23 @@
   </div>
 </div>
 <div class="tasklist" ng-controller="TasklistCtrl">
-  <ul class="tasklistlsit">
-    <li class="singletask" ng-repeat="t in tasks">
-      <div class="tasksummary">{{t.summary}}</div>
-      <div class="taskcontent">{{t.content}}</div>
-      <div class="taskscheduled">{{t.scheduled}}</div>
-    </li>
-  </ul>
+  <md-content>
+  <md-list>
+    <md-item class="singletask" ng-repeat="t in tasks">
+      <md-item-content>
+        <div class="md-tile-content">
+          <div class="summaryview">
+            <h3>{{t.summary}}</h3>
+          </div>
+          <div class="contentview">
+          <h4>{{t.content}}</h4>
+          <h4>{{t.scheduled | date: "dd/MM/yyyy"}}</h4>
+          </div>
+        </div>
+      </md-item-content>
+    </md-item>
+  </md-list>
+  </md-content>
 </div>
 </div>
 </div>
