@@ -14,4 +14,8 @@ angular.module('angDaysApp')
                 $scope.tasks = data ;
                 shareTasks.settasks($scope.tasks);
             });
+        $scope.hideContent = true;
+        $scope.revealContent = function () {
+            this.hideContent = !this.hideContent;
+        };
   });
