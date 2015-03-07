@@ -5,17 +5,17 @@
 
 module.exports = function(config) {
   'use strict';
-
+ 
   config.set({
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
-
+ 
     // base path, that will be used to resolve files and exclude
     basePath: '../',
-
+ 
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['jasmine'],
-
+ 
     // list of files / patterns to load in the browser
     files: [
       // bower:js
@@ -34,16 +34,17 @@ module.exports = function(config) {
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
-      'test/spec/**/*.js'
+        'test/spec/**/*.js',
+        'app/views/*.html'
     ],
-
+ 
     // list of files / patterns to exclude
     exclude: [
     ],
-
+ 
     // web server port
-    port: 8080,
-
+    port: 9090,
+ 
     // Start these browsers, currently available:
     // - Chrome
     // - ChromeCanary
@@ -55,13 +56,21 @@ module.exports = function(config) {
     browsers: [
       'PhantomJS'
     ],
-
+ 
     // Which plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
-      'karma-jasmine'
+        'karma-jasmine',
+        'karma-ng-html2js-preprocessor'
     ],
+      preprocessors: { 
+  'app/views/*.html': ['ng-html2js'] 
+}, 
 
+ngHtml2JsPreprocessor: { 
+    stripPrefix: 'app/',
+    moduleName: 'myViews'
+},
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
     singleRun: false,
