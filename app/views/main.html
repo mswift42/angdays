@@ -1,37 +1,7 @@
 <div ng-controller="MainCtrl">
-<div class="container">
-<div class="ntform" ng-controller="NewtaskCtrl">
-  <div class="container">
-    <h4 class="subformheader">New Task</h4>
-    <form name="newtaskform" novalidate>
-      <div class="form-group">
-        <label for="">Task Summary</label>
-        <md-input-container>
-        <input type="text" name="summary" class="form-control"
-               ng-model="formData.summary" ng-focus="revealContent()"
-               ng-minlength="3" required>
-        </md-input-container>
-      </div>
-      <div class="tcontent" ng-hide="hideContent">
-        
-        <span ng-show="newtaskform.summary.$invalid && newtaskform.summary.$dirty"
-              class="help-block">Please provide a Task Summary with at least 3 characters.</span>
-      <div class="form-group">
-        <label for="">Task Content</label>
-        <textarea name="content" class="form-control" ng-model="formData.content" rows="3" ></textarea>
-        <span class="help-block"></span>
-        <label>Scheduled Date <small>(format: dd/mm/yyyy)</small></label><br/>
-        <input type="text" class="form-control" ng-model="formData.scheduled" name="scheduled" bs-datepicker >
-        <span class="help-block"></span>
-        <button  class="btn btn-default" ng-disabled="newtaskform.$invalid"
-                 ng-click="saveTask()">Save</button>
-      </div>
-      </div>
-    </form>
-  </div>
-</div>
-<div class="tasklist" ng-controller="TasklistCtrl">
   <div new-task></div>
+<div class="tasklist" ng-controller="TasklistCtrl">
+  <div task-list></div>
 </div>
 </div>
 </div>
