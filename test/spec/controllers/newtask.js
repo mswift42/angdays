@@ -16,7 +16,16 @@ describe('Controller: NewtaskCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('should set hideContent initially to true.', function () {
+      expect(scope.hideContent).toBeDefined();
+      expect(scope.hideContent).toEqual(true);
   });
+    it('revealContent should set hideContent to be false.', function() {
+        expect(scope.revealContent).toBeDefined();
+        scope.revealContent();
+        expect(scope.hideContent).toEqual(false);
+    });
+    it('saveTask function should be defined', function() {
+        expect(scope.saveTask).toBeDefined();
+    });
 });
