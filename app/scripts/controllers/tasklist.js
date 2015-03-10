@@ -18,4 +18,10 @@ angular.module('angDaysApp')
         $scope.revealContent = function () {
             this.hideContent = !this.hideContent;
         };
+
+        $scope.deleteTask = function(task) {
+            shareTasks.removetask(task);
+            $http.delete('/tasks/' + task.id);
+            console.log(shareTasks.list());
+        };
   });
