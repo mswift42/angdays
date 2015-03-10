@@ -4,7 +4,7 @@
     <md-item class="singletask" ng-repeat="t in tasks">
       <md-item-content>
         <div class="md-tile-content">
-          <div class="summaryview"  ng-click="revealContent()" >
+          <div class="summaryview"  id="{{t.id}}" ng-click="revealContent()" >
             <h3>{{t.summary}}</h3>
           </div>
           <div class="contentview" ng-hide="hideContent">
@@ -21,7 +21,7 @@
                   <md-input-container>
                     <button class="btn" ng-disabled="editform.$invalid"
                             ng-click="editTask()">Save Edit</button>
-                    <button class="btn btn-danger" ng-click="deleteTask()">Delete</button>
+                    <button class="btn btn-danger" ng-click="deleteTask(t)">Delete</button>
                   </md-input-container>
               </div>
             </form>
