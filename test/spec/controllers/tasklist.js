@@ -10,11 +10,13 @@ describe('Controller: TasklistCtrl', function () {
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
+      scope = $rootScope.$new();
+      
     TasklistCtrl = $controller('TasklistCtrl', {
-      $scope: scope
+        $scope: scope
     });
   }));
+    
 
     it('hideContent should be set to true', function () {
         expect(scope.hideContent).toBeDefined();
