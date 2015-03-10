@@ -15,12 +15,13 @@
                          ng-model="t.summary" value="{{t.summary}}"/>
                 </md-input-container>
                 <md-input-container>
-                  <textarea ng-model="t.content"></textarea>
+                  <textarea ng-model="t.content" class="form-control"></textarea>
                 </md-input-container>
                   <input type="text" class="form-control" ng-model="t.scheduled" name="scheduled" bs-datepicker>
                   <md-input-container>
                     <button class="btn" ng-disabled="editform.$invalid"
                             ng-click="editTask()">Save Edit</button>
+                    <button class="btn btn-danger" ng-click="deleteTask()">Delete</button>
                   </md-input-container>
               </div>
             </form>
