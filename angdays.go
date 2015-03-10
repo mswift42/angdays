@@ -160,6 +160,7 @@ func init() {
 	router.HandleFunc("/tasks", handler)
 	router.HandleFunc("/tasks/user/", tasksHandler)
 	router.HandleFunc("/tasks/{id}/", listTaskHandler)
+	router.HandleFunc("/tasks/{id}/", deleteTaskHandler).Methods("DELETE")
 	http.Handle("/tasks", router)
 
 }
@@ -175,6 +176,19 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func deleteTaskHandler(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+	stringid := mux.Vars(r)["id"]
+	id, err := strconv.ParseInt(stringid, 10, 64)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	if err := datastore.Delete(c, datastore.NewKey(c, "Task", "", id, tasklistkey(c))); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
 func tasksHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	val, err := handleTasks(c, r)
