@@ -1,17 +1,15 @@
 package angdays
 
 import (
+	"appengine"
+	"appengine/datastore"
 	"encoding/json"
 	"fmt"
+	"github.com/julienschmidt/httprouter"
 	"io"
 	"net/http"
 	"strconv"
 	"time"
-
-	"github.com/gorilla/mux"
-
-	"appengine"
-	"appengine/datastore"
 )
 
 type Task struct {
@@ -21,19 +19,6 @@ type Task struct {
 	Content   string    `json:"content" datastore:",noindex"`
 	Scheduled time.Time `json:"scheduled"`
 	Done      string    `json:"done"`
-}
-
-// Agenda - struct for Overview of upcoming tasks.
-// Contains a date in format <Weekday, day, monthabbr year>
-// and a slice of tasks for the date.
-type Agenda struct {
-	FancyDate string `json:"fancydate"`
-	Taskslice []Task `json:"taskslice"`
-}
-
-type TaskAndAgenda struct {
-	Tasks       []Task   `json:"tasks"`
-	Agendaslice []Agenda `json:"agendaslice"`
 }
 
 func keyForID(c appengine.Context, id int64) *datastore.Key {
@@ -110,14 +95,19 @@ func (t *Task) delete(c appengine.Context) error {
 }
 
 func init() {
-	router := mux.NewRouter()
-	router.HandleFunc("/tasks/user/", tasksHandler)
-	router.HandleFunc("/tasks/{id}", deleteTaskHandler).Methods("DELETE")
-	router.HandleFunc("/tasks", handler)
+	router := httprouter.New()
+	router.GET("/tasks", handler)
+	router.POST("/tasks", handler)
+	router.DELETE("/tasks/:id", deleteTaskHandler)
+	// http.HandleFunc("/tasks", handler)
+	// router.HandleFunc("/tasks/user/", tasksHandler)
+	// router.HandleFunc("/tasks/{id}", deleteTaskHandler).Methods("DELETE")
+	// router.HandleFunc("/tasks", handler)
 	http.Handle("/tasks", router)
+	http.Handle("/tasks/", router)
 
 }
-func handler(w http.ResponseWriter, r *http.Request) {
+func handler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	c := appengine.NewContext(r)
 	val, err := handleTasks(c, r)
 	if err == nil {
@@ -130,9 +120,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func deleteTaskHandler(w http.ResponseWriter, r *http.Request) {
+func deleteTaskHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	c := appengine.NewContext(r)
-	stringid := mux.Vars(r)["id"]
+	stringid := ps.ByName("id")
 	id, err := strconv.ParseInt(stringid, 0, 64)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
