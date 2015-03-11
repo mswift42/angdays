@@ -93,13 +93,12 @@ func init() {
 	router := httprouter.New()
 	router.GET("/tasks", handler)
 	router.POST("/tasks", handler)
-	router.DELETE("/tasks/:id", deleteTaskHandler)
+	router.DELETE("/tasks", deleteTaskHandler)
 	// http.HandleFunc("/tasks", handler)
 	// router.HandleFunc("/tasks/user/", tasksHandler)
 	// router.HandleFunc("/tasks/{id}", deleteTaskHandler).Methods("DELETE")
 	// router.HandleFunc("/tasks", handler)
 	http.Handle("/tasks", router)
-	http.Handle("/tasks/", router)
 
 }
 func handler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -117,7 +116,7 @@ func handler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 func deleteTaskHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	c := appengine.NewContext(r)
-	stringid := ps.ByName("id")
+	stringid := r.URL.Query()["id"][0]
 	id, err := strconv.ParseInt(stringid, 0, 64)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
