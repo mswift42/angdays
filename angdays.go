@@ -60,52 +60,6 @@ func formatDate(t time.Time) string {
 	return t.Format(layout)
 }
 
-func formatDateFancy(t time.Time) string {
-	layout := "Monday, 02 Jan 2006"
-	return t.Format(layout)
-}
-
-// weekDates - takes a day
-// and returns a slice of dates of range startday - 10 days from startday.
-func weekDates(day time.Time) []time.Time {
-	week := make([]time.Time, agendasize)
-	for i := int64(0); i < agendasize; i++ {
-		week[i] = addDay(day, i-3)
-	}
-
-	return week
-}
-
-// addDay - add to a given starting day, a number of days
-// and return the resulting date.
-func addDay(startday time.Time, day int64) time.Time {
-	length := 24 * day
-	return startday.Add(time.Duration(length) * time.Hour)
-}
-
-// agendaOverview - takes a taskslice and a day
-// and builds an overview of all coming dates in range of today -
-// agendasize. For every day it builds a struct agenda with a
-// formatted date and a slice of tasks, due at that date and with
-// status "Todo". Finally the slice of 'Agendastructs is returned.
-func agendaOverview(ts []Task, d time.Time) []Agenda {
-	week := weekDates(d)
-	a := make([]Agenda, agendasize)
-	for i, j := range week {
-		a[i].FancyDate = formatDateFancy(j)
-	}
-	for i := range a {
-		ag := make([]Task, 0)
-		for _, k := range ts {
-			if formatDate(week[i]) == formatDate(k.Scheduled) && k.Done == "Todo" {
-				ag = append(ag, k)
-			}
-		}
-		a[i].Taskslice = ag
-	}
-	return a
-}
-
 func tasklistkey(c appengine.Context) *datastore.Key {
 	return datastore.NewKey(c, "Task", "default_tasklist", 0, nil)
 
@@ -157,10 +111,9 @@ func (t *Task) delete(c appengine.Context) error {
 
 func init() {
 	router := mux.NewRouter()
-	router.HandleFunc("/tasks", handler)
 	router.HandleFunc("/tasks/user/", tasksHandler)
-	router.HandleFunc("/tasks/{id}/", listTaskHandler)
-	router.HandleFunc("/tasks/{id}/", deleteTaskHandler).Methods("DELETE")
+	router.HandleFunc("/tasks/{id}", deleteTaskHandler).Methods("DELETE")
+	router.HandleFunc("/tasks", handler)
 	http.Handle("/tasks", router)
 
 }
@@ -180,12 +133,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func deleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	stringid := mux.Vars(r)["id"]
-	id, err := strconv.ParseInt(stringid, 10, 64)
+	id, err := strconv.ParseInt(stringid, 0, 64)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	if err := datastore.Delete(c, datastore.NewKey(c, "Task", "", id, tasklistkey(c))); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 }
 
@@ -246,12 +200,6 @@ func handleTasks(c appengine.Context, r *http.Request) (interface{}, error) {
 		return task.save(c)
 	case "GET":
 		return listTasks(c)
-	case "DELETE":
-		task, err := decodeTask(r.Body)
-		if err != nil {
-			return nil, err
-		}
-		return nil, task.delete(c)
 	}
 	return nil, fmt.Errorf("method not implemented")
 }
