@@ -20,6 +20,8 @@ angular.module('angDaysApp')
             $http.post("/tasks",task).success(function() {
                                      $scope.hideContent = true;
                 $scope.formData.summary = '';
+                $scope.formData.content = '';
+                $scope.formData.scheduled = '';
                 shareTasks.add(task);
             });
             
