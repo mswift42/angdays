@@ -25,11 +25,6 @@ func keyForID(c appengine.Context, id int64) *datastore.Key {
 	return datastore.NewKey(c, "Task", "", id, tasklistkey(c))
 }
 
-// agendasize constant, describes size of agendaoverview in days
-const (
-	agendasize int64 = 10
-)
-
 // parseTime - convert a time string with layout
 // dd/mm/yyyy to time.Time type.
 func parseTime(s string) time.Time {
