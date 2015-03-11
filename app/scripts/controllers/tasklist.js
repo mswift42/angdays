@@ -20,8 +20,8 @@ angular.module('angDaysApp')
         };
 
         $scope.deleteTask = function(task) {
-            shareTasks.removetask(task);
-            $http.delete('/tasks/' + task.id);
-            console.log(shareTasks.list());
+            $http.delete('/tasks', {params: {id:task.id}});
+            
+            $scope.tasks = $scope.tasks.filter(function(i) { return i.id !== task.id;});
         };
   });
