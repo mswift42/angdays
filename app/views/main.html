@@ -2,12 +2,11 @@
 <div class="container">
 <div class="ntform" ng-controller="NewtaskCtrl">
   <div class="container">
-    <!-- <h4 class="subformheader">New Task</h4> -->
     <form name="newtaskform" novalidate>
       <div class="form-group">
-        <!-- <label for="">Task Summary</label> -->
         <input type="text" name="summary" class="form-control"
-               ng-model="formData.summary" placeholder="Task Summary" ng-focus="revealContent()"
+               ng-model="formData.summary" placeholder="Enter new task here"
+               ng-focus="revealContent()"
                ng-minlength="3" required>
       </div>
       <div class="tcontent" ng-hide="hideContent">
