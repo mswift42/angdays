@@ -17,6 +17,10 @@ angular.module('angDaysApp')
       datefactory.formatDate = function(date) {
           return date.toLocaleDateString();
       };
+      datefactory.parseDate = function(datestring) {
+          var spl = datestring.split('/');
+          return new Date(spl[2],spl[1],spl[0]);
+      };
 
       datefactory.nextWeek = function(day) {
           var dayms = day.getTime();
