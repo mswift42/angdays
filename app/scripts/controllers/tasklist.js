@@ -21,7 +21,7 @@ angular.module('angDaysApp')
 
         $scope.deleteTask = function(task) {
             $http.delete('/tasks', {params: {id:task.id}});
-            
-            $scope.tasks = $scope.tasks.filter(function(i) { return i.id !== task.id;});
+            $scope.tasks = $scope.tasks.filter(function(i)
+                                               { return i.id !== task.id;});
         };
   });

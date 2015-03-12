@@ -20,5 +20,8 @@ describe('Controller: TasklistCtrl', function () {
 
     it('hideContent should be set to true', function () {
         expect(scope.hideContent).toBeDefined();
+        expect(scope.hideContent).toBe(true);
+        scope.revealContent();
+        expect(scope.hideContent).toBe(false);
   });
 });
