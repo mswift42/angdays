@@ -16,7 +16,7 @@ angular.module('angDaysApp')
       
       datefactory.parseDate = function(datestring) {
           var spl = datestring.split('/');
-          return new Date(spl[2],spl[1],spl[0]);
+          return new Date(spl[2],(spl[1])-1,spl[0]);
       };
 
       datefactory.nextWeek = function(day) {

@@ -17,13 +17,13 @@ describe('Service: dateService', function () {
     it('should return the correct Date for 31/03/2015', function() {
         var someday = new Date('March 10, 2015');
         var nextday = new Date('March 11, 2015');
-        expect(dateService.nextWeek(someday)).toBe('17/03/2015');
-        expect(dateService.nextWeek(nextday)).toBe('18/03/2015');
+        expect(dateService.nextWeek(someday).getMonth()).toBe(2);
+        expect(dateService.nextWeek(nextday).getDate()).toBe(18);
     });
     it('should parse dates of format dd/mm/yyyy',function() {
         var day1 = "31/03/2000";
         var day2 = "04/02/2000";
-        expect(dateService.parseDate(day1).getMonth()).toBe(4);
+        expect(dateService.parseDate(day1).getMonth()).toBe(2);
         expect(dateService.parseDate(day2).getDate()).toBe(4);
     });
 
