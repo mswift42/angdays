@@ -15,12 +15,12 @@ angular.module('angDaysApp')
       var datefactory = {};
       
       datefactory.formatDate = function(date) {
-          return date.toLocaleString().split(' ')[0];
+          return date.toLocaleDateString();
       };
 
       datefactory.nextWeek = function(day) {
           var dayms = day.getTime();
-          return datefactory.formatDate(dayms + (7 * 24 * 60 * 60 * 1000));
+          return datefactory.formatDate(new Date(dayms + (7 * 24 * 60 * 60 * 1000)));
       };
 
       return datefactory;
