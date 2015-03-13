@@ -20,7 +20,7 @@
                   <input type="text" class="form-control" ng-model="t.scheduled" name="scheduled" bs-datepicker>
                   <md-input-container>
                     <button class="btn" ng-disabled="editform.$invalid"
-                            ng-click="editTask()">Save Edit</button>
+                            ng-click="editTask(t)">Save Edit</button>
                     <button class="btn btn-danger" ng-click="deleteTask(t)">Delete</button>
                   </md-input-container>
               </div>
