@@ -5,7 +5,7 @@ import (
 	"appengine/datastore"
 	"encoding/json"
 	"fmt"
-	"github.com/julienschmidt/httprouter"
+	"github.com/gorilla/mux"
 	"io"
 	"net/http"
 	"strconv"
@@ -90,18 +90,57 @@ func (t *Task) delete(c appengine.Context) error {
 }
 
 func init() {
-	router := httprouter.New()
-	router.GET("/tasks", handler)
-	router.POST("/tasks", handler)
-	router.DELETE("/tasks", deleteTaskHandler)
+	// router := httprouter.New()
+	// router.GET("/tasks", handler)
+	// router.POST("/tasks", handler)
+	// router.DELETE("/tasks", deleteTaskHandler)
+	// router.PATCH("/tasks/:taskid", updateTaskHandler)
 	// http.HandleFunc("/tasks", handler)
 	// router.HandleFunc("/tasks/user/", tasksHandler)
 	// router.HandleFunc("/tasks/{id}", deleteTaskHandler).Methods("DELETE")
 	// router.HandleFunc("/tasks", handler)
-	http.Handle("/tasks", router)
+	// r := mux.NewRouter().StrictSlash(true)
+	// tasks := r.Path("/tasks").Subrouter()
+	// tasks.Methods("GET").HandlerFunc(handler)
+	// tasks.Methods("POST").HandlerFunc(handler)
+	// task := r.PathPrefix("/tasks/{id}").Subrouter()
+	// task.Methods("DELETE").HandlerFunc(deleteTaskHandler)
+	// http.Handle("/tasks", r)
+	r := mux.NewRouter().PathPrefix("/api/").Subrouter()
+
+	r.HandleFunc("/tasks", handler).Methods("GET")
+	r.HandleFunc("/tasks", handler).Methods("POST")
+	r.HandleFunc("/tasks/{id}", deleteTaskHandler).Methods("DELETE")
+	r.HandleFunc("/tasks/{id}", updateTaskHandler).Methods("POST")
+	http.Handle("/api/", r)
 
 }
-func handler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func updateTaskHandler(w http.ResponseWriter, r *http.Request) {
+	c := appengine.NewContext(r)
+	idstring := mux.Vars(r)["id"]
+	id, err := strconv.ParseInt(idstring, 10, 64)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	task := Task{}
+	if err := json.NewDecoder(r.Body).Decode(&task); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+	oldtask := Task{}
+	key := keyForID(c, id)
+	err = datastore.Get(c, key, &oldtask)
+	if err == datastore.ErrNoSuchEntity {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	if _, err := datastore.Put(c, key, &task); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	val, err := handleTasks(c, r)
 	if err == nil {
@@ -114,9 +153,9 @@ func handler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 }
 
-func deleteTaskHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func deleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
-	stringid := r.URL.Query()["id"][0]
+	stringid := mux.Vars(r)["id"]
 	id, err := strconv.ParseInt(stringid, 0, 64)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
