@@ -18,11 +18,7 @@ angular.module('angDaysApp')
             var task = {"summary":$scope.formData.summary,
                         "content": $scope.formData.content};
             var sched = $scope.formData.scheduled;
-            if (sched !== undefined) {
-                task.scheduled = new Date(sched);
-            } else {
-                task.scheduled = dateService.nextWeek(new Date());
-            }
+            task.scheduled = (sched !== undefined) ? new Date(sched) : dateService.nextWeek(new Date());
             $http.post("/tasks",task).success(function() {
                                      $scope.hideContent = true;
                 $scope.formData.summary = '';
