@@ -25,6 +25,5 @@ handlers:
   static_dir: app/styles
 - url: /images
   static_dir: app/images
-
-- url: /tasks
+- url: /api/.*
   script: _go_app
