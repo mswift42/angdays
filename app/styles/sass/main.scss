@@ -17,6 +17,13 @@ body {
   margin-bottom: 0;
   line-height: 40px;
   padding-bottom: 19px;
+
+}
+.summaryview > h3 {
+
+    margin:0 auto;
+    font-family:$task-face;
+    font-size:$header-size;
 }
 
 /* Custom page footer */
