@@ -25,10 +25,22 @@ angular.module('angDaysApp')
                                                { return i.id !== task.id;});
         };
         $scope.editTask = function(task) {
-            $http.post('/api/tasks/' + task.id, {data: {summary:task.summary,
-                                                     content:task.content,
-                                                     scheduled:new Date(task.scheduled),
-                                                     done:task.done}});
+            console.log(task);
+            $http({
+                url: '/api/tasks/' + task.id,
+                method: 'POST',
+                data: {'summary':task.summary,
+                       'content':task.content,
+                       'id':task.id,
+                       'scheduled': new Date(task.scheduled),
+                       'done':task.done}
+            }).then(function(response) {
+                console.log(response);
+            });
+                                                      
+                                  
+                                  
+                                  
                                   
             $scope.tasks = function() {
                 for (var i = 0;i<$scope.tasks.length;i++) {
