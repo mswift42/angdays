@@ -9,7 +9,7 @@
           </div>
           <div class="contentview" ng-hide="hideContent">
             <form name="editform" novalidate>
-              <div class="form-group">
+              <div class="form-group" id="{{t.id}}">
                 <md-input-container>
                   <input type="text" name="edsummary" class="form-control"
                          ng-model="t.summary" value="{{t.summary}}"/>
@@ -21,7 +21,7 @@
                   <md-input-container>
                     <button class="btn" ng-disabled="editform.$invalid"
                             ng-click="editTask(t)">Save Edit</button>
-                    <button class="btn btn-danger" ng-click="deleteTask(t)">Delete</button>
+                    <button class="btn btn-danger" ng-disabled="editform.$invalid" ng-click="deleteTask(t)">Delete</button>
                   </md-input-container>
               </div>
             </form>

@@ -8,7 +8,7 @@
  * Controller of the angDaysApp
  */
 angular.module('angDaysApp')
-    .controller('TasklistCtrl', function ($scope, $http,shareTasks,$location) {
+    .controller('TasklistCtrl', function ($scope, $http,shareTasks) {
         $http.get('/api/tasks')
             .success(function(data) {
                 $scope.tasks = data ;
