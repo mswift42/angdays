@@ -8,7 +8,7 @@
  * Controller of the angDaysApp
  */
 angular.module('angDaysApp')
-    .controller('TasklistCtrl', function ($scope, $http,shareTasks) {
+    .controller('TasklistCtrl', function ($scope, $http,shareTasks,$location) {
         $http.get('/api/tasks')
             .success(function(data) {
                 $scope.tasks = data ;
@@ -25,7 +25,6 @@ angular.module('angDaysApp')
                                                { return i.id !== task.id;});
         };
         $scope.editTask = function(task) {
-            console.log(task);
             $http({
                 url: '/api/tasks/' + task.id,
                 method: 'POST',
@@ -35,20 +34,8 @@ angular.module('angDaysApp')
                        'scheduled': new Date(task.scheduled),
                        'done':task.done}
             }).then(function(response) {
-                console.log(response);
+                shareTasks.settasks($scope.tasks);
             });
-                                                      
-                                  
-                                  
-                                  
-                                  
-            $scope.tasks = function() {
-                for (var i = 0;i<$scope.tasks.length;i++) {
-                    if ($scope.tasks[i].id === task.id) {
-                        $scope.tasks[i] = task;
-                    }
-                }
-            };
+            this.hideContent = !this.hideContent;
         };
-        
     });
