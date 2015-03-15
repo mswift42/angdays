@@ -19,6 +19,7 @@ type Task struct {
 	Content   string    `json:"content" datastore:",noindex"`
 	Scheduled time.Time `json:"scheduled"`
 	Done      string    `json:"done"`
+	Category  string    `json:"category"`
 }
 
 func keyForID(c appengine.Context, id int64) *datastore.Key {
