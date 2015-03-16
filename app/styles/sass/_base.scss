@@ -1,2 +1,15 @@
 @import "compass/reset";
+@import "compass/css3";
 
+$font-color: #333;
+$header-size: 130%;
+$task-face: "Roboto";
+
+@mixin heading {
+    width:90%;
+    margin:0 auto;
+    height:auto;
+    text-align:center;
+    font-size:180%;
+    margin-bottom:2em;
+}
