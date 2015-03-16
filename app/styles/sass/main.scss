@@ -11,19 +11,28 @@ body {
   padding: 0;
 }
 
-/* Make the masthead heading the same height as the navigation */
-.header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 40px;
-  padding-bottom: 19px;
-
-}
+h2.header {
+    @include single-text-shadow;
+    @include heading;
+    
+}   
 .summaryview > h3 {
 
     margin:0 auto;
     font-family:$task-face;
     font-size:$header-size;
+}
+.singletask {
+    width:90%;
+}
+
+li.list-group-item {
+    margin:1em;
+}
+
+.tview {
+    width:90%;
+    margin:0 auto;
 }
 
 /* Custom page footer */
