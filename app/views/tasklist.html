@@ -1,28 +1,25 @@
 
-  <md-content>
-  <md-list>
-    <md-item class="singletask" ng-repeat="t in tasks">
-      <md-item-content>
-        <div class="md-tile-content">
-          <div class="summaryview"  id="{{t.id}}" ng-click="revealContent()" >
+<ul class="list-group">
+    <li class="list-group-item" ng-repeat="t in tasks">
+      <div class="summaryview"  id="{{t.id}}" ng-click="revealContent()" >
             <h3>{{t.summary}}</h3>
           </div>
           <div class="contentview" ng-hide="hideContent">
             <form name="editform" novalidate>
               <div class="form-group" id="{{t.id}}">
-                <md-input-container>
+
                   <input type="text" name="edsummary" class="form-control"
                          ng-model="t.summary" value="{{t.summary}}"/>
-                </md-input-container>
-                <md-input-container>
+
+
                   <textarea ng-model="t.content" class="form-control"></textarea>
-                </md-input-container>
+
                   <input type="text" class="form-control" ng-model="t.scheduled" name="scheduled" bs-datepicker>
-                  <md-input-container>
+
                     <button class="btn" ng-disabled="editform.$invalid"
                             ng-click="editTask(t)">Save Edit</button>
                     <button class="btn btn-danger" ng-disabled="editform.$invalid" ng-click="deleteTask(t)">Delete</button>
-                  </md-input-container>
+
               </div>
             </form>
             <!-- <h4>{{t.content}}</h4>
@@ -31,5 +28,6 @@
         </div>
       </md-item-content>
     </md-item>
+    </ul>
   </md-list>
-  </md-content>
+
