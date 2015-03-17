@@ -151,3 +151,12 @@ li.list-group-item {
     border-bottom: 0;
   }
 }
+/* line 73, ../sass/main.scss */
+.form-control {
+  width: 96%;
+}
+
+/* line 76, ../sass/main.scss */
+.btn {
+  font-size: 70%;
+}

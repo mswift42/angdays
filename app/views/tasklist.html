@@ -1,4 +1,3 @@
-
 <ul class="list-group">
     <li class="list-group-item" ng-repeat="t in tasks">
       <div class="summaryview"  id="{{t.id}}" ng-click="revealContent()" >
@@ -19,7 +18,6 @@
                     <button class="btn" ng-disabled="editform.$invalid"
                             ng-click="editTask(t)">Save Edit</button>
                     <button class="btn btn-danger" ng-disabled="editform.$invalid" ng-click="deleteTask(t)">Delete</button>
-
               </div>
             </form>
             <!-- <h4>{{t.content}}</h4>

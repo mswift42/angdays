@@ -1,9 +1,10 @@
-<div ng-controller="MainCtrl">
-<div class="container">
+<div class="tview" ng-controller="MainCtrl">
+  <div class="container">
+    <h2 class="header">Tasks</h2>
 <div class="ntform" ng-controller="NewtaskCtrl">
   <div class="container">
     <form name="newtaskform" novalidate>
-      <div class="form-group">
+       <div class="form-group">
         <input type="text" name="summary" class="form-control"
                ng-model="formData.summary" placeholder="Enter new task here"
                ng-focus="revealContent()"
