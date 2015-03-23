@@ -4,4 +4,6 @@ dist
 .sass-cache
 bower_components
 .*
+app/.htacess
+app/.buildignore
 !/.gitignore
