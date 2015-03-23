@@ -33,7 +33,7 @@ angular.module('angDaysApp')
                        'id':task.id,
                        'scheduled': new Date(task.scheduled),
                        'done':task.done}
-            }).then(function(response) {
+            }).then(function(_) {
                 shareTasks.settasks($scope.tasks);
             });
             this.hideContent = !this.hideContent;
