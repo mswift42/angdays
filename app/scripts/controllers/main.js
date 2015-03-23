@@ -10,4 +10,5 @@
 angular.module('angDaysApp')
   .controller('MainCtrl', function ($scope) {
       $scope.tasks = [];
+      
   });
