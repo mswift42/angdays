@@ -1,7 +1,7 @@
 <ul class="list-group">
     <li class="list-group-item" ng-repeat="t in tasks">
       <div class="summaryview"  id="{{t.id}}" ng-click="revealContent()" >
-            <h3>{{t.summary}}</h3>
+        <h3>{{t.summary}}</h3>
           </div>
           <div class="contentview" ng-hide="hideContent">
             <form name="editform" novalidate>
@@ -11,7 +11,7 @@
                          ng-model="t.summary" value="{{t.summary}}"/>
 
 
-                  <textarea ng-model="t.content" class="form-control"></textarea>
+                  <textarea ng-model="t.content" class="form-control" ng-show="t.content !==''"></textarea>
 
                   <input type="text" class="form-control" ng-model="t.scheduled" name="scheduled" bs-datepicker>
 
