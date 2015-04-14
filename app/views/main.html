@@ -3,29 +3,28 @@
     <h2 class="header">Tasks</h2>
     <div class="ntform" ng-controller="NewtaskCtrl">
       <div class="container">
-        <form name="newtaskform" novalidate>
-          <div class="form-group">
+        <form name="newtaskform" novalidate ng-submit="saveTask()">
+          <!-- <div class="form-group">       -->
             <div class="summary container">
               <div class="row summaryrow">
                 <div class="col-xs-7">
-                  <input type="text" name="summary" class="form-control" id="summary"
+                  <input type="text" name="summary" class="" id="summary"
                          ng-model="formData.summary" placeholder="Enter new task here"
                          ng-minlength="3" required>
                 </div>
-                <div class="col-xs-1" id="calicon">
+                <div class="col-xs-5" id="calicon">
                   <span class="glyphicon glyphicon-calendar"></span>                  
                 </div>
                 <div class="col-xs-4">
                     <input type="text" id="dpicker" class="form-control" ng-model="formData.scheduled" name="scheduled" bs-datepicker/>
                 </div>
-              </div>
             </div>
           </div>
           <span ng-show="newtaskform.summary.$invalid && newtaskform.summary.$dirty"
                 class="help-block">Please provide a Task Summary with at least 3 characters.</span>
 
           <button  class="btn btn-default" ng-disabled="newtaskform.$invalid"
-                   ng-click="saveTask()" style="display:none">Save</button>
+                    style="display:none">Save</button>
           <!-- </div> -->
           <!-- </div> -->
         </form>
